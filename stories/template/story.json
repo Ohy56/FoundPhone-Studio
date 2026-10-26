@@ -181,6 +181,60 @@
           "time": "2026-10-01 23:09"
         }
       ]
+    },
+    {
+      "id": "baekhyun-sms-chat",
+      "app": "messages",
+      "title": "边伯贤",
+      "participants": [
+        "owner",
+        "baekhyun"
+      ],
+      "messages": [
+        {
+          "id": "baekhyun-sms-001",
+          "title": "边伯贤",
+          "body": "洗完澡了吗…>_<…",
+          "senderId": "baekhyun",
+          "time": "2026-10-01 23:10"
+        }
+      ]
+    },
+    {
+      "id": "baekhyun-instagram-dm",
+      "app": "instagram",
+      "title": "baekhyun56",
+      "participants": [
+        "owner",
+        "baekhyun"
+      ],
+      "messages": [
+        {
+          "id": "baekhyun-ig-001",
+          "title": "baekhyun56",
+          "body": "洗完澡了吗♫✿◔‿◔✿",
+          "senderId": "baekhyun",
+          "time": "2026-10-01 23:10"
+        }
+      ]
+    },
+    {
+      "id": "baekhyun-x-dm",
+      "app": "twitter",
+      "title": "baekhyunee",
+      "participants": [
+        "owner",
+        "baekhyun"
+      ],
+      "messages": [
+        {
+          "id": "baekhyun-x-001",
+          "title": "baekhyunee",
+          "body": "洗完澡了吗(♡˙︶˙♡)",
+          "senderId": "baekhyun",
+          "time": "2026-10-01 23:10"
+        }
+      ]
     }
   ],
   "content": {
