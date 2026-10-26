@@ -103,11 +103,53 @@ export function AppIcon({
 type PhoneProps = Omit<Parameters<typeof PhoneRuntime>[0], "deviceLayout">;
 export function Phone(props: PhoneProps) {
   const deviceLayout = useDeviceLayout(props.work, props.creator);
+  const [surname, setSurname] = useState("");
+  const [givenName, setGivenName] = useState("");
+  const [confirmedName, setConfirmedName] = useState("");
+  const needsName = !props.creator && !props.runtime && !confirmedName;
+  const playWork = useMemo(() => {
+    if (!confirmedName) return deviceLayout.work;
+    const next = structuredClone(deviceLayout.work);
+    const replace = (value: string) =>
+      value === "我" || value === "你" ? confirmedName : value;
+    next.phone.owner = confirmedName;
+    for (const items of Object.values(next.data)) {
+      for (const item of items) {
+        item.title = replace(item.title);
+        item.sender = replace(item.sender);
+      }
+    }
+    return next;
+  }, [deviceLayout.work, confirmedName]);
+  if (needsName) {
+    return (
+      <div style={{ width: "100%", minHeight: "100%", display: "grid", placeItems: "center", padding: 24, boxSizing: "border-box", background: "#f6f2f0", color: "#302927", fontFamily: "inherit" }}>
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            const fullName = (surname.trim() + givenName.trim()).trim();
+            if (fullName) setConfirmedName(fullName);
+          }}
+          style={{ width: "100%", maxWidth: 340, padding: 28, boxSizing: "border-box", borderRadius: 24, background: "#fff", boxShadow: "0 12px 40px #4b332015" }}
+        >
+          <div style={{ fontSize: 12, letterSpacing: 3, color: "#9b8177", marginBottom: 12 }}>BEFORE WE BEGIN</div>
+          <h2 style={{ margin: "0 0 8px", fontSize: 25 }}>先告诉我你的名字</h2>
+          <p style={{ margin: "0 0 24px", color: "#82746f", fontSize: 13, lineHeight: 1.7 }}>填写后就可以开始故事啦。</p>
+          <label style={{ display: "block", fontSize: 13, marginBottom: 7 }}>姓</label>
+          <input value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="自己填写姓氏" autoComplete="off" style={{ width: "100%", boxSizing: "border-box", height: 46, padding: "0 13px", border: "1px solid #e5dcd7", borderRadius: 12, marginBottom: 16, background: "#fff", color: "#302927", font: "inherit" }} />
+          <label style={{ display: "block", fontSize: 13, marginBottom: 7 }}>名</label>
+          <input value={givenName} onChange={(e) => setGivenName(e.target.value)} placeholder="自己填写名字" autoComplete="off" style={{ width: "100%", boxSizing: "border-box", height: 46, padding: "0 13px", border: "1px solid #e5dcd7", borderRadius: 12, marginBottom: 20, background: "#fff", color: "#302927", font: "inherit" }} />
+          <button type="submit" disabled={!surname.trim() || !givenName.trim()} style={{ width: "100%", height: 46, border: 0, borderRadius: 12, background: surname.trim() && givenName.trim() ? "#302927" : "#bcb4b0", color: "#fff", fontSize: 15, cursor: "pointer" }}>开始故事</button>
+          <p style={{ margin: "14px 0 0", fontSize: 11, lineHeight: 1.6, color: "#9b8f89" }}>名字只用于本次游玩，不会写入故事文件或上传。</p>
+        </form>
+      </div>
+    );
+  }
   return (
     <PhoneRuntime
       {...props}
-      work={deviceLayout.work}
-      deviceLayout={deviceLayout}
+      work={playWork}
+      deviceLayout={{ ...deviceLayout, work: playWork }}
     />
   );
 }
