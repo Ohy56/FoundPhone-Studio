@@ -91,31 +91,6 @@ export function validateLayout(raw: unknown, input: Work) {
   // Do not normalize saved layouts here: user-customized desktop positions,
   // visibility, dock, and folders must survive unrelated content edits.
   // App visibility defaults are applied only when creating a new layout.
-  // One-time home-screen preset for the Baekhyun found-phone story.
-  // Keep every app installed so the original simulator features remain available,
-  // while only the requested apps appear on the two home pages and dock.
-    // The App Store stays installed and usable through the existing launcher,
-    // but does not take up a slot on this story's home screen.
-    const storeApp = layout.apps.find((app) => app.id === "appstore");
-    if (storeApp) {
-      storeApp.installed = true;
-      storeApp.visible = false;
-      storeApp.dock = false;
-    }
-    layout.order = home;
-    layout.positions = {
-      "kakao": { page: 0, x: 0, y: 0 },
-      "messages": { page: 0, x: 1, y: 0 },
-      "contacts": { page: 0, x: 2, y: 0 },
-      "photos": { page: 0, x: 3, y: 0 },
-      "notes": { page: 0, x: 0, y: 1 },
-      "calendar": { page: 1, x: 0, y: 0 },
-      "twitter": { page: 1, x: 1, y: 0 },
-      "instagram": { page: 1, x: 2, y: 0 },
-      "settings": { page: 1, x: 3, y: 0 },
-    };
-    layout.previewLayoutRevision = 3;
-  }
   if (w.id === "ui-test-phone-v2" && layout.previewLayoutRevision < 1) {
     const visibleApps = ["wechat", "douyin"];
     for (const app of layout.apps) {
