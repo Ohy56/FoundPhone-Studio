@@ -3,7 +3,7 @@
   "id": "baekhyun-found-phone",
   "title": "捡手机｜边伯贤",
   "description": "边伯贤的手机故事。解锁密码：0506。",
-  "revision": 5,
+  "revision": 6,
   "phone": {
     "owner": "我",
     "date": "2026-10-01",
@@ -29,7 +29,7 @@
       "id": "douyin",
       "name": "抖音",
       "installed": true,
-      "visible": true,
+      "visible": false,
       "dock": false,
       "folder": "",
       "icon": ""
@@ -63,8 +63,24 @@
     "calculator",
     "settings",
     "qq",
-    "weibo",
-    "redbook",
+    {
+      "id": "weibo",
+      "name": "微博",
+      "installed": true,
+      "dock": false,
+      "folder": "",
+      "icon": "",
+      "visible": false
+    },
+    {
+      "id": "redbook",
+      "name": "小红书",
+      "installed": true,
+      "dock": false,
+      "folder": "",
+      "icon": "",
+      "visible": false
+    },
     "bilibili",
     "alipay",
     "taobao",
