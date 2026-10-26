@@ -321,6 +321,7 @@ export function MymyInstagram(p: SkinProps) {
     [seen, setSeen] = useSkinState<string[]>(p, "mymySeen", []);
   const [sheet, setSheet] = useState<Item | null>(null),
     [selected, setSelected] = useState<Item | null>(null),
+    [dmSelected, setDmSelected] = useState<Item | null>(null),
     [story, setStory] = useState(0),
     [draft, setDraft] = useState(""),
     [pop, setPop] = useState("");
@@ -438,20 +439,29 @@ export function MymyInstagram(p: SkinProps) {
         <header className="igh">
           <button
             aria-label={selected ? "返回Instagram动态" : "关闭当前App"}
-            onClick={() => (selected ? setSelected(null) : p.onBack())}
+            onClick={() => (dmSelected ? setDmSelected(null) : selected ? setSelected(null) : p.onBack())}
           >
             <ArrowLeft />
           </button>
           <span className="igl2">
-            {selected ? "帖子" : tab === "主页" ? "Instagram" : tab}
+            {dmSelected ? dmSelected.title : selected ? "帖子" : tab === "主页" ? "Instagram" : tab}
           </span>
           <button aria-label="打开私信" onClick={() => setTab("私信")}>
             <Send />
           </button>
         </header>
         <div className="igb">
-          {selected && post(selected)}
-          {!selected && tab === "主页" && (
+          {dmSelected && (
+            <section className="mymy-dm-thread">
+              <div className="mymy-dm-peer"><Avatar name={dmSelected.sender} src={dmSelected.avatar} /><span><b>{dmSelected.title}</b><small>Instagram 私信</small></span></div>
+              <div className="mymy-dm-messages">
+                <div className="mymy-dm-bubble incoming">{dmSelected.body}<small>{dmSelected.time.slice(-5)}</small></div>
+              </div>
+              <div className="mymy-dm-composer"><span>发送消息…</span><Send size={20}/></div>
+            </section>
+          )}
+          {!dmSelected && selected && post(selected)}
+          {!dmSelected && !selected && tab === "主页" && (
             <>
               <div className="sts">
                 {stories.map((s, n) => (
@@ -473,7 +483,7 @@ export function MymyInstagram(p: SkinProps) {
               {!posts.length && <Blank />}
             </>
           )}
-          {!selected && tab === "个人主页" && (
+          {!dmSelected && !selected && tab === "个人主页" && (
             <>
               <div className="pf">
                 <Avatar name={p.owner || "机主"} />
@@ -507,10 +517,10 @@ export function MymyInstagram(p: SkinProps) {
               </div>
             </>
           )}
-          {!selected && tab === "私信" && (
+          {!dmSelected && !selected && tab === "私信" && (
             <>
               {dms.map((i) => (
-                <button className="kzkr" key={i.id} onClick={() => openPost(i)}>
+                <button className="kzkr" key={i.id} onClick={() => setDmSelected(i)}>
                   <Avatar name={i.sender} src={i.avatar} />
                   <span className="kzkn">
                     <b>{i.title}</b>
@@ -521,7 +531,7 @@ export function MymyInstagram(p: SkinProps) {
               {!dms.length && <Blank />}
             </>
           )}
-          {!selected && tab === "搜索" && (
+          {!dmSelected && !selected && tab === "搜索" && (
             <>
               <input
                 className="mymy-search"
@@ -546,6 +556,7 @@ export function MymyInstagram(p: SkinProps) {
               }
               onClick={() => {
                 setSelected(null);
+                setDmSelected(null);
                 setTab(["主页", "搜索", "私信", "个人主页"][n]);
               }}
             >
@@ -643,7 +654,8 @@ export function MymyX(p: SkinProps) {
     [likes, setLikes] = useSkinState<string[]>(p, "mymyXLikes", []),
     [reposts, setReposts] = useSkinState<string[]>(p, "mymyXReposts", []),
     [marks, setMarks] = useSkinState<string[]>(p, "mymyXMarks", []),
-    [query, setQuery] = useState("");
+    [query, setQuery] = useState(""),
+    [dmOpen, setDmOpen] = useState(false);
   const isLiked = (id: string) =>
     typeof p.ui?.["liked-" + id] === "boolean"
       ? Boolean(p.ui["liked-" + id])
@@ -661,15 +673,15 @@ export function MymyX(p: SkinProps) {
     >
       <div className="kzxw">
         <header className="kzxh">
-          <button aria-label="关闭当前App" onClick={p.onBack}>
+          <button aria-label={dmOpen ? "返回X私信" : "关闭当前App"} onClick={() => (dmOpen ? setDmOpen(false) : p.onBack())}>
             <ArrowLeft />
           </button>
-          <div className="kzxlg">𝕏</div>
+          <div className="kzxlg">{dmOpen ? "私信" : "𝕏"}</div>
           <button aria-label="切换X外观" onClick={() => setDark(!dark)}>
             <User />
           </button>
         </header>
-        <div className="kzxtb">
+        {!dmOpen && <div className="kzxtb">
           {["为你推荐", "正在关注", "添加 +", "时间"].map((t) => (
             <button
               className={t === tab ? "on" : ""}
@@ -679,8 +691,8 @@ export function MymyX(p: SkinProps) {
               {t}
             </button>
           ))}
-        </div>
-        {tab === "搜索" && (
+        </div>}
+        {tab === "搜索" && !dmOpen && (
           <input
             className="mymy-search"
             aria-label="搜索X"
@@ -689,9 +701,19 @@ export function MymyX(p: SkinProps) {
             placeholder="搜索"
           />
         )}
-        <div className="kzxfd">
+        {dmOpen ? (
+          <div className="mymy-dm-thread">
+            {p.items.filter((i) => i.folder === "私信").map((i) => (
+              <div className="mymy-dm-peer" key={i.id}><Avatar name={i.sender} src={i.avatar}/><span><b>{i.title}</b><small>@{i.title}</small></span></div>
+            ))}
+            {p.items.filter((i) => i.folder === "私信").map((i) => (
+              <div className="mymy-dm-bubble incoming" key={i.id}>{i.body}<small>{i.time.slice(-5)}</small></div>
+            ))}
+            <div className="mymy-dm-composer"><span>开始发送私信</span><Send size={20}/></div>
+          </div>
+        ) : <div className="kzxfd">
           {p.items
-            .filter((i) => (i.title + i.body).includes(query))
+            .filter((i) => i.folder !== "私信" && (i.title + i.body).includes(query))
             .map((i) => (
               <article className="kzxt" key={i.id}>
                 <Avatar name={i.sender} src={i.avatar} />
@@ -771,15 +793,14 @@ export function MymyX(p: SkinProps) {
                 </div>
               </article>
             ))}
-          {!p.items.length && <Blank />}
-        </div>
+          {!p.items.filter((i) => i.folder !== "私信").length && <Blank />}
+        </div>}
         <nav className="kzxnav">
           {[Home, Search, Bell, MessageCircle].map((Icon, n) => (
             <button
               key={n}
               aria-label={["时间线", "搜索", "通知", "私信"][n]}
-              onClick={() => n < 2 && setTab(n ? "搜索" : "推荐")}
-              disabled={n > 1}
+              onClick={() => n === 3 ? setDmOpen(true) : (setDmOpen(false), setTab(n === 1 ? "搜索" : "推荐"))}
             >
               <Icon />
             </button>
