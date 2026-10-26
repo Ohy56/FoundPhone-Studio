@@ -36,6 +36,7 @@ import { RichText } from "./RichText";
 import {
   useEffect,
   useState,
+  useMemo,
   useRef,
   Suspense,
   type CSSProperties,
