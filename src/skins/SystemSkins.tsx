@@ -362,7 +362,7 @@ export function NotesSkin(p: Props) {
   const list = [...(folder
     ? items.filter((i) => (i.folder || "备忘录") === folder)
     : items)].sort((a, b) => {
-      const byTime = b.time.localeCompare(a.time);
+      const byTime = Date.parse(b.time) - Date.parse(a.time);
       return byTime || b.id.localeCompare(a.id);
     });
   return (
