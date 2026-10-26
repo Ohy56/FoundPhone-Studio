@@ -26,7 +26,7 @@ export function SystemNotifications({
   onDismiss: (index: number) => void;
   compact?: boolean;
 }) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(notices.some((n) => n.startsWith("Instagram:") || n.startsWith("X:")));
   const entries = notices.map((text, index) => ({ text, index })).reverse();
   const shown = compact && !expanded ? entries.slice(0, 1) : entries;
   return (
