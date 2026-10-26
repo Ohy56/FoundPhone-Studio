@@ -228,7 +228,10 @@
         "meta": {
           "conversationId": "baekhyun-instagram-dm",
           "participants": "owner,baekhyun"
-        }
+        },
+        "sender": "边伯贤",
+        "outgoing": false,
+        "read": false
       }
     ],
     "twitter": [
@@ -241,7 +244,10 @@
         "meta": {
           "conversationId": "baekhyun-x-dm",
           "participants": "owner,baekhyun"
-        }
+        },
+        "sender": "边伯贤",
+        "outgoing": false,
+        "read": false
       }
     ]
   },
