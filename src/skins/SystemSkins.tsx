@@ -924,7 +924,7 @@ export function FindSkin(p: Props) {
             key={i.id}
             item={i}
             onItem={p.onItem}
-            leading={<Avatar name={i.title} />}
+            leading={<Avatar name={i.title} src={i.avatar || meta(i, "avatar")} />}
           >
             {meta(i, "status", "位置记录")}
           </Row>
