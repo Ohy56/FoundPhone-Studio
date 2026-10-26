@@ -123,6 +123,32 @@ export function validateLayout(
   layout.apps.push(
     ...w.apps.filter((a) => !layout.apps.some((b) => b.id === a.id)),
   );
+  // Pin the requested app visibility and Dock membership for the Baekhyun
+  // story even when an older browser-saved layout exists. Keep user positions
+  // and order for the apps that remain visible.
+  if (w.id === "baekhyun-found-phone") {
+    const dockIds = ["phone", "messages", "safari", "music"];
+    const desktopIds = ["kakao", "contacts", "camera", "photos", "notes", "calendar", "twitter", "instagram", "settings"];
+    const visibleIds = new Set([...dockIds, ...desktopIds]);
+    for (const app of layout.apps) {
+      app.visible = visibleIds.has(app.id);
+      app.dock = dockIds.includes(app.id);
+      app.folder = "";
+      if (visibleIds.has(app.id)) app.installed = true;
+    }
+    layout.order = [
+      ...desktopIds,
+      ...layout.order.filter((id) => visibleIds.has(id) && !desktopIds.includes(id) && !dockIds.includes(id)),
+      ...dockIds,
+    ];
+    const defaults: DeviceLayout["positions"] = {};
+    desktopIds.forEach((id, index) => {
+      defaults[id] = { page: index < 5 ? 0 : 1, x: (index < 5 ? index : index - 5) % 4, y: Math.floor((index < 5 ? index : index - 5) / 4) };
+    });
+    for (const id of desktopIds) {
+      if (!layout.positions[id]) layout.positions[id] = defaults[id];
+    }
+  }
   // Do not normalize saved layouts here: user-customized desktop positions,
   // visibility, dock, and folders must survive unrelated content edits.
   // App visibility defaults are applied only when creating a new layout.
