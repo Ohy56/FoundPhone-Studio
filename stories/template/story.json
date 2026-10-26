@@ -230,7 +230,8 @@
         "meta": {
           "conversationId": "baekhyun-instagram-dm",
           "participants": "owner,baekhyun"
-        }
+        },
+        "folder": "私信"
       }
     ],
     "twitter": [
@@ -245,7 +246,8 @@
         "meta": {
           "conversationId": "baekhyun-x-dm",
           "participants": "owner,baekhyun"
-        }
+        },
+        "folder": "私信"
       }
     ]
   },
