@@ -107,7 +107,7 @@ export function validateLayout(raw: unknown, input: Work) {
   // One-time home-screen preset for the Baekhyun found-phone story.
   // Keep every app installed so the original simulator features remain available,
   // while only the requested apps appear on the two home pages and dock.
-  if (w.id === "baekhyun-found-phone") {
+  if (w.id === "baekhyun-found-phone" && layout.previewLayoutRevision < 3) {
     const home = [
       "kakao", "messages", "contacts", "photos", "notes",
       "calendar", "twitter", "instagram", "settings",
