@@ -199,42 +199,6 @@
           "time": "2026-10-01 23:10"
         }
       ]
-    },
-    {
-      "id": "baekhyun-instagram-dm",
-      "app": "instagram",
-      "title": "baekhyun56",
-      "participants": [
-        "owner",
-        "baekhyun"
-      ],
-      "messages": [
-        {
-          "id": "baekhyun-ig-001",
-          "title": "baekhyun56",
-          "body": "洗完澡了吗♫✿◔‿◔✿",
-          "senderId": "baekhyun",
-          "time": "2026-10-01 23:10"
-        }
-      ]
-    },
-    {
-      "id": "baekhyun-x-dm",
-      "app": "twitter",
-      "title": "baekhyunee",
-      "participants": [
-        "owner",
-        "baekhyun"
-      ],
-      "messages": [
-        {
-          "id": "baekhyun-x-001",
-          "title": "baekhyunee",
-          "body": "洗完澡了吗(♡˙︶˙♡)",
-          "senderId": "baekhyun",
-          "time": "2026-10-01 23:10"
-        }
-      ]
     }
   ],
   "content": {
@@ -252,6 +216,32 @@
         "body": "新年的第二天我们也是一起过的（*＾3＾）",
         "time": "2026-01-02 00:00",
         "folder": "备忘录"
+      }
+    ],
+    "instagram": [
+      {
+        "id": "baekhyun-ig-001",
+        "title": "baekhyun56",
+        "body": "洗完澡了吗♫✿◔‿◔✿",
+        "time": "2026-10-01 23:10",
+        "folder": "",
+        "meta": {
+          "conversationId": "baekhyun-instagram-dm",
+          "participants": "owner,baekhyun"
+        }
+      }
+    ],
+    "twitter": [
+      {
+        "id": "baekhyun-x-001",
+        "title": "baekhyunee",
+        "body": "洗完澡了吗(♡˙︶˙♡)",
+        "time": "2026-10-01 23:10",
+        "folder": "",
+        "meta": {
+          "conversationId": "baekhyun-x-dm",
+          "participants": "owner,baekhyun"
+        }
       }
     ]
   },
