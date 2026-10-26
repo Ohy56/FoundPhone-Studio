@@ -88,6 +88,16 @@ export function validateLayout(raw: unknown, input: Work) {
   layout.apps.push(
     ...w.apps.filter((a) => !layout.apps.some((b) => b.id === a.id)),
   );
+  // Keep these social apps off the simulated phone home screen, including
+  // layouts restored from this browser's local storage.
+  for (const app of layout.apps) {
+    if (["douyin", "weibo", "redbook"].includes(app.id)) {
+      app.visible = false;
+      app.dock = false;
+      app.folder = "";
+      delete layout.positions[app.id];
+    }
+  }
   const store = layout.apps.find((a) => a.id === "appstore");
   if (store) {
     store.installed = true;
