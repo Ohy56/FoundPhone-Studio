@@ -359,9 +359,12 @@ export function SafariSkin(p: Props) {
 export function NotesSkin(p: Props) {
   const { q, setQ, items } = useContent(p, "备忘录");
   const [folder, setFolder] = useState<string | null>(null);
-  const list = folder
+  const list = [...(folder
     ? items.filter((i) => (i.folder || "备忘录") === folder)
-    : items;
+    : items)].sort((a, b) => {
+      const byTime = b.time.localeCompare(a.time);
+      return byTime || b.id.localeCompare(a.id);
+    });
   return (
     <div className="catalog-skin native-notes">
       <Header p={p} />
