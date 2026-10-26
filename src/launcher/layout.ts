@@ -107,7 +107,7 @@ export function validateLayout(raw: unknown, input: Work) {
   // One-time home-screen preset for the Baekhyun found-phone story.
   // Keep every app installed so the original simulator features remain available,
   // while only the requested apps appear on the two home pages and dock.
-  if (w.id === "baekhyun-found-phone" && layout.previewLayoutRevision < 2) {
+  if (w.id === "baekhyun-found-phone" && layout.previewLayoutRevision < 3) {
     const home = [
       "kakao", "messages", "contacts", "photos", "notes",
       "calendar", "twitter", "instagram", "settings",
@@ -139,7 +139,7 @@ export function validateLayout(raw: unknown, input: Work) {
       "instagram": { page: 1, x: 2, y: 0 },
       "settings": { page: 1, x: 3, y: 0 },
     };
-    layout.previewLayoutRevision = 2;
+    layout.previewLayoutRevision = 3;
   }
   if (w.id === "ui-test-phone-v2" && layout.previewLayoutRevision < 1) {
     const visibleApps = ["wechat", "douyin"];
