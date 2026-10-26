@@ -459,7 +459,12 @@ export function HomeLauncher(p: Props) {
       onClick={() => click(entry)}
     >
       {entry.app ? (
-        p.icon({ ...entry.app, ...(dock ? { name: "" } : {}) })
+        <span className="launcher-icon-with-badge">
+          {p.icon({ ...entry.app, ...(dock ? { name: "" } : {}) })}
+          {["messages", "instagram", "twitter"].includes(entry.app.id) && (
+            <span className="launcher-unread-badge">1</span>
+          )}
+        </span>
       ) : entry.widget ? (
         <WidgetFace widget={entry.widget} work={p.work} time={p.time} />
       ) : (
