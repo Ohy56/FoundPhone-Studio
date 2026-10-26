@@ -198,7 +198,7 @@ export function validateWork(input: unknown): Work {
 }
 export function safeMedia(value: string) {
   if (
-    /^https:\/\/raw\.githubusercontent\.com\/Ohy56\/FoundPhone-Studio\/main\/(76c2c80e3fd7cce7a2aa2e3db34285162ebbbed1|ca71d14ed592374cb841953a08de9b26ab16c486|a7c3efe064133ea21fcdaed4d4ebecb4522f92d7)\.jpeg$/.test(value)
+    /^https:\/\/raw\.githubusercontent\.com\/Ohy56\/FoundPhone-Studio\/main\/(76c2c80e3fd7cce7a2aa2e3db34285162ebbbed1|ca71d14ed592374cb841953a08de9b26ab16c486|a7c3efe064133ea21fcdaed4d4ebecb4522f92d7)\.jpeg(?:\?v=\d+)?$/.test(value)
   ) return value;
   return /^data:(image\/(png|jpeg|webp|gif)|audio\/(mpeg|mp3|wav|ogg|webm|mp4)|video\/(mp4|webm));base64,[a-zA-Z0-9+/=\s]+$/.test(
     value,
