@@ -136,18 +136,19 @@ export function validateLayout(
       app.folder = "";
       if (visibleIds.has(app.id)) app.installed = true;
     }
-    layout.order = [
-      ...desktopIds,
-      ...layout.order.filter((id) => visibleIds.has(id) && !desktopIds.includes(id) && !dockIds.includes(id)),
-      ...dockIds,
-    ];
+    layout.order = [...desktopIds];
+    layout.widgets = [];
     const defaults: DeviceLayout["positions"] = {};
     desktopIds.forEach((id, index) => {
       defaults[id] = { page: index < 5 ? 0 : 1, x: (index < 5 ? index : index - 5) % 4, y: Math.floor((index < 5 ? index : index - 5) / 4) };
     });
     for (const id of desktopIds) {
-      if (!layout.positions[id]) layout.positions[id] = defaults[id];
+      layout.positions[id] = defaults[id];
     }
+    for (const id of Object.keys(layout.positions)) {
+      if (!visibleIds.has(id)) delete layout.positions[id];
+    }
+    layout.previewLayoutRevision = 2;
   }
   // Do not normalize saved layouts here: user-customized desktop positions,
   // visibility, dock, and folders must survive unrelated content edits.
