@@ -94,18 +94,6 @@ export function validateLayout(raw: unknown, input: Work) {
   // One-time home-screen preset for the Baekhyun found-phone story.
   // Keep every app installed so the original simulator features remain available,
   // while only the requested apps appear on the two home pages and dock.
-  if (false && w.id === "baekhyun-found-phone" && layout.previewLayoutRevision < 3) {
-    const home = [
-      "kakao", "messages", "contacts", "photos", "notes",
-      "calendar", "twitter", "instagram", "settings",
-    ];
-    const dock = ["phone", "safari", "camera", "music"];
-    const allowed = new Set([...home, ...dock]);
-    for (const app of layout.apps) {
-      app.visible = allowed.has(app.id);
-      app.dock = dock.includes(app.id);
-      app.folder = "";
-    }
     // The App Store stays installed and usable through the existing launcher,
     // but does not take up a slot on this story's home screen.
     const storeApp = layout.apps.find((app) => app.id === "appstore");
