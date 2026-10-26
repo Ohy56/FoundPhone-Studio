@@ -175,7 +175,11 @@ export function initialRuntime(w: Work): Runtime {
     unlocked: [],
     hidden: [],
     completed: [],
-    notifications: [],
+    notifications: w.id === "baekhyun-found-phone" ? [
+      "信息:边伯贤：洗完澡了吗…>_<…",
+      "Instagram:baekhyun56：洗完澡了吗♫✿◔‿◔✿",
+      "X:baekhyunee：洗完澡了吗(♡˙︶˙♡)",
+    ] : [],
     endings: [],
     choices: [],
     messages: {},
