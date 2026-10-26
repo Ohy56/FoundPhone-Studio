@@ -461,7 +461,7 @@ export function HomeLauncher(p: Props) {
       {entry.app ? (
         <span className="launcher-icon-with-badge">
           {p.icon({ ...entry.app, ...(dock ? { name: "" } : {}) })}
-          {["messages", "instagram", "twitter"].includes(entry.app.id) && (
+          {p.work.id === "baekhyun-found-phone" && ["messages", "instagram", "twitter"].includes(entry.app.id) && (
             <span className="launcher-unread-badge">1</span>
           )}
         </span>
