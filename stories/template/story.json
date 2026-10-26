@@ -3,11 +3,11 @@
   "id": "baekhyun-found-phone",
   "title": "捡手机｜边伯贤",
   "description": "边伯贤的手机故事。解锁密码：0506。",
-  "revision": 9,
+  "revision": 10,
   "phone": {
     "owner": "我",
     "date": "2026-10-01",
-    "time": "18:20",
+    "time": "23:10",
     "battery": 94,
     "network": "5G",
     "wallpaper": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/a7c3efe064133ea21fcdaed4d4ebecb4522f92d7.jpeg?v=8",
@@ -179,6 +179,49 @@
           "body": "啊…你先洗澡吧，这些都不是重点，洗完澡我们再说(>﹏<)",
           "senderId": "baekhyun",
           "time": "2026-10-01 23:09"
+        },
+        {
+          "id": "lock-msg-messages-001",
+          "title": "边伯贤",
+          "body": "洗完澡了吗…>_<…",
+          "senderId": "baekhyun",
+          "time": "2026-10-01 23:10"
+        }
+      ]
+    },
+    {
+      "id": "lock-message-instagram",
+      "app": "instagram",
+      "title": "baekhyun56",
+      "participants": [
+        "owner",
+        "baekhyun56"
+      ],
+      "messages": [
+        {
+          "id": "lock-msg-instagram-001",
+          "title": "baekhyun56",
+          "body": "洗完澡了吗♫✿◔‿◔✿",
+          "senderId": "baekhyun56",
+          "time": "2026-10-01 23:10"
+        }
+      ]
+    },
+    {
+      "id": "lock-message-twitter",
+      "app": "twitter",
+      "title": "baekhyunee",
+      "participants": [
+        "owner",
+        "baekhyunee"
+      ],
+      "messages": [
+        {
+          "id": "lock-msg-twitter-001",
+          "title": "baekhyunee",
+          "body": "洗完澡了吗(♡˙︶˙♡)",
+          "senderId": "baekhyunee",
+          "time": "2026-10-01 23:10"
         }
       ]
     }
