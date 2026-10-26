@@ -71,7 +71,11 @@ export function defaultLayout(input: Work): DeviceLayout {
     positions: {},
   };
 }
-export function validateLayout(raw: unknown, input: Work) {
+export function validateLayout(
+  raw: unknown,
+  input: Work,
+  options: { preserveConflictingPositions?: boolean } = {},
+) {
   const w = ensureAppStore(input);
   const layout = layoutSchema.parse(raw);
   if (layout.workId !== w.id) throw Error("布局属于其他作品");
@@ -115,9 +119,22 @@ export function validateLayout(raw: unknown, input: Work) {
     ];
     layout.previewLayoutRevision = 1;
   }
-  // Keep saved positions even if current packing rules consider them conflicting.
-  // Validation must never reject a user's saved layout and silently replace it
-  // with the default desktop when unrelated app content changes.
+  if (!options.preserveConflictingPositions) {
+    const entries = homeEntries(layout);
+    const packed = packHome(entries, layout.positions);
+    for (const entry of entries) {
+      const requested = layout.positions[entry.key];
+      if (!requested) continue;
+      const actual = packed[requested.page]?.find(
+        (cell) => cell.entry.key === entry.key,
+      );
+      if (!actual || actual.x !== requested.x || actual.y !== requested.y) {
+        throw Error("桌面位置冲突或超出范围");
+      }
+    }
+  }
+  // Existing local saves keep their positions; only newly submitted layouts
+  // are rejected when fixed placements collide.
   return layout;
 }
 export function useDeviceLayout(authored: Work, creator = false) {
@@ -127,7 +144,9 @@ export function useDeviceLayout(authored: Work, creator = false) {
       try {
         const text = localStorage.getItem(key);
         return text
-          ? validateLayout(JSON.parse(text), base)
+          ? validateLayout(JSON.parse(text), base, {
+              preserveConflictingPositions: true,
+            })
           : defaultLayout(base);
       } catch {
         return defaultLayout(base);
