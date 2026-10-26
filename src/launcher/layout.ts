@@ -179,7 +179,7 @@ export function useDeviceLayout(authored: Work, creator = false) {
               ...fallback,
               apps: [
                 ...savedApps,
-                ...fallback.apps.filter((app) => !savedApps.some((saved) => saved.id === app.id)),
+                ...fallback.apps.filter((app) => !savedApps.some((saved: { id: string }) => saved.id === app.id)),
               ],
               order: Array.isArray(raw.order) ? raw.order.filter((id: unknown) => typeof id === "string") : fallback.order,
               positions: raw.positions && typeof raw.positions === "object" ? raw.positions : fallback.positions,
