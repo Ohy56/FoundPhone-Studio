@@ -149,6 +149,48 @@ export function useDeviceLayout(authored: Work, creator = false) {
             })
           : defaultLayout(base);
       } catch {
+        // Recover a partially invalid saved layout instead of silently replacing
+        // the user's desktop with defaults. Keep their order, positions and app
+        // choices whenever the saved data is structurally usable.
+        try {
+          const text = localStorage.getItem(key);
+          const raw = text ? JSON.parse(text) : null;
+          if (
+            raw &&
+            raw.version === 1 &&
+            raw.workId === base.id &&
+            Array.isArray(raw.apps)
+          ) {
+            const fallback = defaultLayout(base);
+            const known = new Map(base.apps.map((app) => [app.id, app]));
+            const savedApps = raw.apps
+              .filter((app: unknown) =>
+                !!app &&
+                typeof app === "object" &&
+                typeof (app as { id?: unknown }).id === "string" &&
+                known.has((app as { id: string }).id),
+              )
+              .map((app: { id: string }) => {
+                const authored = known.get(app.id)!;
+                const saved = raw.apps.find((item: { id?: string }) => item.id === app.id);
+                return { ...authored, ...saved };
+              });
+            return {
+              ...fallback,
+              apps: [
+                ...savedApps,
+                ...fallback.apps.filter((app) => !savedApps.some((saved) => saved.id === app.id)),
+              ],
+              order: Array.isArray(raw.order) ? raw.order.filter((id: unknown) => typeof id === "string") : fallback.order,
+              positions: raw.positions && typeof raw.positions === "object" ? raw.positions : fallback.positions,
+              widgets: Array.isArray(raw.widgets) ? raw.widgets : fallback.widgets,
+              cleared: Array.isArray(raw.cleared) ? raw.cleared : fallback.cleared,
+              previewLayoutRevision: typeof raw.previewLayoutRevision === "number" ? raw.previewLayoutRevision : fallback.previewLayoutRevision,
+            } as DeviceLayout;
+          }
+        } catch {
+          // If the saved data cannot be parsed at all, fall through safely.
+        }
         return defaultLayout(base);
       }
     }),
