@@ -152,17 +152,9 @@ export function validateLayout(raw: unknown, input: Work) {
     ];
     layout.previewLayoutRevision = 1;
   }
-  const entries = homeEntries(layout),
-    packed = packHome(entries, layout.positions);
-  for (const entry of entries) {
-    const requested = layout.positions[entry.key];
-    if (!requested) continue;
-    const actual = packed[requested.page]?.find(
-      (c) => c.entry.key === entry.key,
-    );
-    if (!actual || actual.x !== requested.x || actual.y !== requested.y)
-      throw Error("桌面位置冲突或超出范围");
-  }
+  // Keep saved positions even if current packing rules consider them conflicting.
+  // Validation must never reject a user's saved layout and silently replace it
+  // with the default desktop when unrelated app content changes.
   return layout;
 }
 export function useDeviceLayout(authored: Work, creator = false) {
