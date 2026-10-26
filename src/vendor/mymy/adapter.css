@@ -628,3 +628,20 @@
   width: 25px;
   height: 25px;
 }
+
+/* Fictional direct-message thread screens for the phone story. */
+.mymy-ui .mymy-dm-thread{min-height:100%;display:flex;flex-direction:column;padding:12px 14px 18px;gap:16px;background:#fff;color:#222}
+.mymy-ui .mymy-dm-peer{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #eee}
+.mymy-ui .mymy-dm-peer span{display:flex;flex-direction:column;gap:3px}
+.mymy-ui .mymy-dm-peer small{font-size:11px;color:#888}
+.mymy-ui .mymy-dm-messages{display:flex;flex:1;flex-direction:column;justify-content:flex-end;align-items:flex-start;min-height:240px;padding:12px 0}
+.mymy-ui .mymy-dm-bubble{max-width:82%;padding:11px 14px;border-radius:18px;font-size:14px;line-height:1.45;overflow-wrap:anywhere}
+.mymy-ui .mymy-dm-bubble.incoming{align-self:flex-start;background:#efefef;color:#222;border-bottom-left-radius:5px}
+.mymy-ui .mymy-dm-bubble small{display:block;margin-top:5px;font-size:10px;color:#888;text-align:right}
+.mymy-ui .mymy-dm-composer{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid #ddd;border-radius:24px;padding:11px 14px;color:#888;font-size:13px;margin-top:auto}
+.mymy-ui.mymy-x .mymy-dm-thread{background:#000;color:#e7e9ea}
+.mymy-ui.mymy-x .mymy-dm-peer{border-color:#2f3336}
+.mymy-ui.mymy-x .mymy-dm-peer small{color:#71767b}
+.mymy-ui.mymy-x .mymy-dm-bubble.incoming{background:#202327;color:#e7e9ea}
+.mymy-ui.mymy-x .mymy-dm-bubble small{color:#9aa0a6}
+.mymy-ui.mymy-x .mymy-dm-composer{border-color:#2f3336;color:#71767b}
