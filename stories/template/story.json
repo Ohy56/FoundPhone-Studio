@@ -3,16 +3,16 @@
   "id": "baekhyun-found-phone",
   "title": "捡手机｜边伯贤",
   "description": "边伯贤的手机故事。解锁密码：0506。",
-  "revision": 4,
+  "revision": 5,
   "phone": {
     "owner": "我",
     "date": "2026-10-01",
     "time": "18:20",
     "battery": 94,
     "network": "5G",
-    "wallpaper": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/76c2c80e3fd7cce7a2aa2e3db34285162ebbbed1.jpeg",
+    "wallpaper": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/76c2c80e3fd7cce7a2aa2e3db34285162ebbbed1.jpeg?v=5",
     "passcode": "0506",
-    "wallpaperUnlocked": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/ca71d14ed592374cb841953a08de9b26ab16c486.jpeg"
+    "wallpaperUnlocked": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/ca71d14ed592374cb841953a08de9b26ab16c486.jpeg?v=5"
   },
   "installedApps": [
     "appstore",
@@ -94,7 +94,7 @@
       "id": "baekhyun",
       "name": "边伯贤",
       "phone": "",
-      "avatar": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/a7c3efe064133ea21fcdaed4d4ebecb4522f92d7.jpeg",
+      "avatar": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/a7c3efe064133ea21fcdaed4d4ebecb4522f92d7.jpeg?v=5",
       "bio": ""
     }
   ],
