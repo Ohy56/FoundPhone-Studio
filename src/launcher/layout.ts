@@ -88,22 +88,9 @@ export function validateLayout(raw: unknown, input: Work) {
   layout.apps.push(
     ...w.apps.filter((a) => !layout.apps.some((b) => b.id === a.id)),
   );
-  // Keep these social apps off the simulated phone home screen, including
-  // layouts restored from this browser's local storage.
-  for (const app of layout.apps) {
-    if (["douyin", "weibo", "redbook"].includes(app.id)) {
-      app.visible = false;
-      app.dock = false;
-      app.folder = "";
-      delete layout.positions[app.id];
-    }
-  }
-  const store = layout.apps.find((a) => a.id === "appstore");
-  if (store) {
-    store.installed = true;
-    store.visible = true;
-    store.folder = "";
-  }
+  // Do not normalize saved layouts here: user-customized desktop positions,
+  // visibility, dock, and folders must survive unrelated content edits.
+  // App visibility defaults are applied only when creating a new layout.
   // One-time home-screen preset for the Baekhyun found-phone story.
   // Keep every app installed so the original simulator features remain available,
   // while only the requested apps appear on the two home pages and dock.
