@@ -528,3 +528,8 @@
   opacity: 0.4;
   cursor: default;
 }
+
+
+/* Unread badges for the three requested apps in the Baekhyun story. */
+.launcher-icon-with-badge{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.launcher-unread-badge{position:absolute;top:-5px;right:-5px;min-width:19px;height:19px;padding:0 4px;box-sizing:border-box;border-radius:999px;background:#ff3b30;color:#fff;font-size:12px;font-weight:700;line-height:19px;text-align:center;border:1.5px solid rgba(255,255,255,.92);z-index:3}
