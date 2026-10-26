@@ -54,6 +54,37 @@ export function ensureAppStore(work: Work): Work {
 }
 export function defaultLayout(input: Work): DeviceLayout {
   const w = ensureAppStore(input);
+  // Stable authored desktop for the Baekhyun phone story. Keep this scoped to
+  // this story so other projects retain their own default launcher behavior.
+  if (w.id === "baekhyun-found-phone") {
+    const dockIds = ["phone", "messages", "safari", "music"];
+    const desktopPages = [
+      ["kakao", "contacts", "camera", "photos", "notes"],
+      ["calendar", "twitter", "instagram", "settings"],
+    ];
+    const visibleIds = new Set([...dockIds, ...desktopPages.flat()]);
+    const apps = structuredClone(w.apps).map((a) => ({
+      ...a,
+      installed: visibleIds.has(a.id) ? true : a.installed,
+      visible: visibleIds.has(a.id),
+      dock: dockIds.includes(a.id),
+      folder: "",
+    }));
+    const positions: DeviceLayout["positions"] = {};
+    desktopPages.forEach((ids, page) => ids.forEach((id, index) => {
+      positions[id] = { page, x: index % 4, y: Math.floor(index / 4) };
+    }));
+    return {
+      version: 1,
+      workId: w.id,
+      previewLayoutRevision: 1,
+      apps,
+      widgets: [],
+      order: [...desktopPages.flat(), ...dockIds],
+      cleared: [],
+      positions,
+    };
+  }
   return {
     version: 1,
     workId: w.id,
