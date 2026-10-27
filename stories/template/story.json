@@ -231,7 +231,8 @@
           "conversationId": "baekhyun-instagram-dm",
           "participants": "owner,baekhyun"
         },
-        "folder": "私信"
+        "folder": "私信",
+        "avatar": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/IMG_5590.jpeg"
       }
     ],
     "twitter": [
@@ -247,7 +248,8 @@
           "conversationId": "baekhyun-x-dm",
           "participants": "owner,baekhyun"
         },
-        "folder": "私信"
+        "folder": "私信",
+        "avatar": "https://raw.githubusercontent.com/Ohy56/FoundPhone-Studio/main/IMG_5591.jpeg"
       }
     ]
   },
