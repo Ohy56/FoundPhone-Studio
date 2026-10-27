@@ -655,7 +655,8 @@ export function MymyX(p: SkinProps) {
     [reposts, setReposts] = useSkinState<string[]>(p, "mymyXReposts", []),
     [marks, setMarks] = useSkinState<string[]>(p, "mymyXMarks", []),
     [query, setQuery] = useState(""),
-    [dmOpen, setDmOpen] = useState(false);
+    [dmOpen, setDmOpen] = useState(false),
+    [selectedDm, setSelectedDm] = useState<Item | null>(null);
   const isLiked = (id: string) =>
     typeof p.ui?.["liked-" + id] === "boolean"
       ? Boolean(p.ui["liked-" + id])
@@ -673,10 +674,10 @@ export function MymyX(p: SkinProps) {
     >
       <div className="kzxw">
         <header className="kzxh">
-          <button aria-label={dmOpen ? "返回X私信" : "关闭当前App"} onClick={() => (dmOpen ? setDmOpen(false) : p.onBack())}>
+          <button aria-label={dmOpen ? "返回X私信" : "关闭当前App"} onClick={() => (selectedDm ? setSelectedDm(null) : dmOpen ? setDmOpen(false) : p.onBack())}>
             <ArrowLeft />
           </button>
-          <div className="kzxlg">{dmOpen ? "私信" : "𝕏"}</div>
+          <div className="kzxlg">{selectedDm ? selectedDm.title : dmOpen ? "私信" : "𝕏"}</div>
           <button aria-label="切换X外观" onClick={() => setDark(!dark)}>
             <User />
           </button>
@@ -701,98 +702,42 @@ export function MymyX(p: SkinProps) {
             placeholder="搜索"
           />
         )}
-        {dmOpen ? (
+        {selectedDm ? (
           <div className="mymy-dm-thread">
-            {p.items.filter((i) => i.folder === "私信").map((i) => (
-              <div className="mymy-dm-peer" key={i.id}><Avatar name={i.sender} src={i.avatar}/><span><b>{i.title}</b><small>@{i.title}</small></span></div>
-            ))}
-            {p.items.filter((i) => i.folder === "私信").map((i) => (
-              <div className="mymy-dm-bubble incoming" key={i.id}>{i.body}<small>{i.time.slice(-5)}</small></div>
-            ))}
+            <div className="mymy-dm-peer"><Avatar name={selectedDm.sender} src={selectedDm.avatar}/><span><b>{selectedDm.title}</b><small>@{selectedDm.title}</small></span></div>
+            <div className="mymy-dm-messages"><div className="mymy-dm-bubble incoming">{selectedDm.body}<small>{selectedDm.time.slice(-5)}</small></div></div>
             <div className="mymy-dm-composer"><span>开始发送私信</span><Send size={20}/></div>
           </div>
-        ) : <div className="kzxfd">
-          {p.items
-            .filter((i) => i.folder !== "私信" && (i.title + i.body).includes(query))
-            .map((i) => (
-              <article className="kzxt" key={i.id}>
-                <Avatar name={i.sender} src={i.avatar} />
-                <div className="kzxb">
-                  <div className="kzxn">
-                    <b>{i.sender}</b>
-                    <small>
-                      @{i.meta.handle || "user"} · {i.time.slice(-5)}
-                    </small>
-                    <em>
-                      <MoreHorizontal size={18} />
-                    </em>
-                  </div>
-                  <button
-                    className="kzxx"
-                    onClick={() => {
-                      read(p, i);
-                      p.onItem(i);
-                    }}
-                  >
-                    {i.body}
-                  </button>
-                  {i.media && (
-                    <button
-                      className="kzxv"
-                      aria-label="打开媒体"
-                      onClick={() => p.onItem(i)}
-                    >
-                      <Media item={i} />
-                    </button>
-                  )}
-                  <div className="kzxac">
-                    <button
-                      aria-label={"评论" + i.title}
-                      onClick={() => p.onItem(i)}
-                    >
-                      <MessageCircle />
-                      {i.comments.length}
-                    </button>
-                    <button
-                      aria-label={"转发" + i.title}
-                      aria-pressed={reposts.includes(i.id)}
-                      onClick={() => toggle(i.id, reposts, setReposts)}
-                    >
-                      <Repeat2 />
-                      {reposts.includes(i.id) ? 1 : 0}
-                    </button>
-                    <button
-                      aria-label={"点赞" + i.title}
-                      aria-pressed={isLiked(i.id)}
-                      onClick={() => {
-                        toggle(i.id, likes, setLikes);
-                        p.onUi?.("liked-" + i.id, !isLiked(i.id));
-                      }}
-                    >
-                      <Heart fill={isLiked(i.id) ? "#f91880" : "none"} />
-                      {i.likes + (isLiked(i.id) ? 1 : 0)}
-                    </button>
-                    <span>
-                      <BarChart2 />
-                      {i.meta.views || "—"}
-                    </span>
-                    <button
-                      aria-label={"收藏" + i.title}
-                      aria-pressed={isSaved(i.id)}
-                      onClick={() => {
-                        toggle(i.id, marks, setMarks);
-                        p.onUi?.("saved-" + i.id, !isSaved(i.id));
-                      }}
-                    >
-                      <Bookmark />
-                    </button>
-                    <button aria-label="分享" onClick={() => p.onItem(i)}>
-                      <Share />
-                    </button>
-                  </div>
-                </div>
-              </article>
+        ) : dmOpen ? (
+          <div className="mymy-dm-thread">
+            <div className="mymy-dm-peer"><b>消息</b></div>
+            {p.items.filter((i) => i.folder === "私信").map((i) => (
+              <button className="kzkr" key={i.id} onClick={() => setSelectedDm(i)}>
+                <Avatar name={i.sender} src={i.avatar}/>
+                <span className="kzkn"><b>{i.title}</b><small>{i.body}</small></span>
+                <small>{i.time.slice(-5)}</small>
+              </button>
             ))}
+            {!p.items.some((i) => i.folder === "私信") && <Blank />}
+          </div>
+        ) : <div className="kzxfd">
+          {p.items.filter((i) => i.folder !== "私信" && (i.title + i.body).includes(query)).map((i) => (
+            <article className="kzxt" key={i.id}>
+              <Avatar name={i.sender} src={i.avatar} />
+              <div className="kzxb"><div className="kzxn"><b>{i.sender}</b><small>@{i.meta.handle || "user"} · {i.time.slice(-5)}</small><em><MoreHorizontal size={18} /></em></div>
+                <button className="kzxx" onClick={() => { read(p, i); p.onItem(i); }}>{i.body}</button>
+                {i.media && <button className="kzxv" aria-label="打开媒体" onClick={() => p.onItem(i)}><Media item={i} /></button>}
+                <div className="kzxac">
+                  <button aria-label={"评论" + i.title} onClick={() => p.onItem(i)}><MessageCircle />{i.comments.length}</button>
+                  <button aria-label={"转发" + i.title} aria-pressed={reposts.includes(i.id)} onClick={() => toggle(i.id, reposts, setReposts)}><Repeat2 />{reposts.includes(i.id) ? 1 : 0}</button>
+                  <button aria-label={"点赞" + i.title} aria-pressed={isLiked(i.id)} onClick={() => { toggle(i.id, likes, setLikes); p.onUi?.("liked-" + i.id, !isLiked(i.id)); }}><Heart fill={isLiked(i.id) ? "#f91880" : "none"} />{i.likes + (isLiked(i.id) ? 1 : 0)}</button>
+                  <span><BarChart2 />{i.meta.views || "—"}</span>
+                  <button aria-label={"收藏" + i.title} aria-pressed={isSaved(i.id)} onClick={() => { toggle(i.id, marks, setMarks); p.onUi?.("saved-" + i.id, !isSaved(i.id)); }}><Bookmark /></button>
+                  <button aria-label="分享" onClick={() => p.onItem(i)}><Share /></button>
+                </div>
+              </div>
+            </article>
+          ))}
           {!p.items.filter((i) => i.folder !== "私信").length && <Blank />}
         </div>}
         <nav className="kzxnav">
@@ -800,7 +745,7 @@ export function MymyX(p: SkinProps) {
             <button
               key={n}
               aria-label={["时间线", "搜索", "通知", "私信"][n]}
-              onClick={() => n === 3 ? setDmOpen(true) : (setDmOpen(false), setTab(n === 1 ? "搜索" : "推荐"))}
+              onClick={() => n === 3 ? (setSelectedDm(null), setDmOpen(true)) : (setSelectedDm(null), setDmOpen(false), setTab(n === 1 ? "搜索" : "推荐"))}
             >
               <Icon />
             </button>
